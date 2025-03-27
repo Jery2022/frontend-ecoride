@@ -1,0 +1,22 @@
+/* appliquer à tous les éléments */
+
+* {
+    margin: 0; /* Réinitialise la marge */
+    padding: 0; /* Réinitialise le marge interieur */
+    box-sizing: border-box;  /* La taille des éléments incluent tous le contenu */
+    line-height:inherit; /* hérite les valuers depuis l'éléments parent */
+    color: inherit; 
+    font:inherit;
+
+}
+
+/* Liens */
+a {
+    cursor: pointer; /* Met u pioteur en tant que curseur */
+    text-decoration: none; /*Envlève le soulignement du texte */
+}
+
+/* Listes */
+ul, ol {
+    list-style: none; /* Enlève les pastilles des éléments des listes */
+}
