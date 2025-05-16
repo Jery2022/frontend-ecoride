@@ -1,0 +1,49 @@
+@use 'sass:color'; // Importation du module color 
+ 
+ // Mixin pour les boutons
+@mixin button-style($background, $color) {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: $background;
+    color: $color;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+  
+    &:hover {
+      background-color: color.adjust($color, $lightness: -10%);
+    }
+  }
+  
+  // Mixin pour les flexbox
+  @mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  // Mixin pour les transitions
+  @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+  }
+  
+  // Mixin pour les médias queries
+  @mixin respond-to($breakpoint) {
+    @if $breakpoint == 'mobile' {
+      @media (max-width: 767px) {
+        @content;
+      }
+    } @else if $breakpoint == 'tablet' {
+      @media (min-width: 768px) and (max-width: 1024px) {
+        @content;
+      }
+    } @else if $breakpoint == 'desktop' {
+      @media (min-width: 1025px) {
+        @content;
+      }
+    }
+  }
+  
