@@ -4,16 +4,23 @@
 // Styles globaux
 body {
   font-family: $primary-font; 
-  color: $text-color;
-  background-color: $background-color;
-  margin: 10px;  // Ajout de l'unité 'px'
-  padding: 10px; // Ajout de l'unité 'px'
+  color: $text-color-secondary;
+  background-color:$tertiary-color;
+  margin: 10px;   
+  padding: 10px;  
 }
+
+
 
 // Style pour les boutons
 .btn {
   @include button-style($primary-color, $text-color-light);
 }
+
+.btn-success {
+   @include button-style($primary-color, $text-color-light);
+}
+
 
 // Style pour les cartes
 .card {
@@ -23,6 +30,9 @@ body {
   padding: 20px;
   margin-bottom: 20px;
 }
+
+
+
 
 // Style pour les formulaires
 form {
@@ -49,13 +59,15 @@ form {
   }
 }
 
+
+
 // Exemple de style pour la navigation
 .navbar {
   background-color: $primary-color;
   padding: 10px;
 
   a {
-    color: $text-color;
+    color: $text-color-secondary;
     margin: 0 15px;
     text-decoration: none;
 
@@ -65,14 +77,110 @@ form {
   }
 }
 
+.offre-section {
+  background-color: $primary-color;
+  color: $text-color-light;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px;
+
+}
+
+.offre-proposition {
+  background-color: $tertiary-color;
+  color: $text-color-secondary; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width : 50%;    
+  height: 150px;  
+  }
+
+.bouton-proposition {
+  background-color: $secondary-color;
+  color: $text-color-secondary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 30px ;  
+
+    a {
+        color: $tertiary-color;
+        color: $text-color-secondary;
+        margin: 15px;
+        text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}
+
+.frame-info {
+  background-color:#fafafa;
+  height: 350px;
+  width:100%;
+  padding:0px;
+  display:flex;
+  flex-direction:column;
+  border: $border;
+  box-shadow: $box-shadow;
+
+  .frame-header-solution  {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    background-color:#008000;
+    height:50px;
+    width:100%px;
+
+  }
+
+  .frame-body-solutions {
+    background-color:#fafafa;
+    width:100%;
+    padding-top:5px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+  }
+  .text-primary-light {
+    color: $text-color-light;
+     
+  }
+}
+
+
+.card-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $card-background;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+
+
 .avis {
-  background-color: $background-color-avis;
+  background-color: $primary-color;
   border: $border;
   padding: $padding;
   margin-top: $margin-top;
   border-radius: $border-radius;
 }
-
+/*
 .footer {
   background-color: $primary-color-footer;
   color: $color-footer;
@@ -81,4 +189,83 @@ form {
   position: $position;
   width: $width;
   bottom: $bottom;
+}
+*/
+
+.card-body-frame {
+  background-color:#008000;
+}
+
+.frame-footer {
+  background-color:#008000;
+  width:100%;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:58px;
+  padding-bottom:58px;
+
+  a {
+    color: $text-color-secondary;
+    margin: 0 15px;
+    text-decoration: none;
+    
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .frame 
+  {
+    width:100%;
+    padding:32px;
+    display:flex;
+    flex-direction:column;
+   
+  }
+
+  .title
+  {
+    height:24px;
+    width:1228px;
+    padding:0px;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    align-items:center;
+   
+  }
+
+
+}
+
+/* Hero image */
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/images/photo-mercedes-vintage1967.jpeg");
+  height: 70vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+
+  .hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+
+   button {
+    @include button-style($secondary-color, $text-color-light);
+
+  }
+
+    button:hover {
+      @include button-style($secondary-color, $primary-color);
+    
+  }
+   
 }
