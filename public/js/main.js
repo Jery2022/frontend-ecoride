@@ -1,5 +1,5 @@
 // Fonction pour charger la barre de navigation 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {  
     // Fonction pour charger la navbar
     async function loadNavbar() {
         try {
@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fonctions pour injecter les formulaires
     function injectRegisterForm() {
-        const contentDiv = document.getElementById('content');
+        const contentDiv = document.getElementById('content'); 
         contentDiv.innerHTML = `
             <div class="container card pt-5 mx-auto">
                 <h1 class="text-center text-black"><b>EcoRide'Vert</b></h1>
                 <h2 class="text-center mb-2 mt-5">CREER UN COMPTE</h2>
                 <h6 class="text-center mb-3">Déjà inscrit ? <a href="#" id="register-form-click">Cliquer ici</a></h6>
                 <form id="register-form">
-                    <div id="error-message"></div>
+                    <div class="alert alert-danger d-none" id="error-message" role="alert"></div>
                     <div class="mb-3">
                         <label for="exampleInputFirstName" class="form-label">Nom</label>
                         <input type="text" class="form-control" id="exampleInputFirstName" required>
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h2 class="text-center mb-2 mt-5">CONNECTEZ-VOUS</h2>
                 <h6 class="text-center mb-3">Pas encore inscrit ? <a href="#" id="login-form-click">Cliquer ici</a></h6>
                 <form id="login-form">
-                    <div id="error-message"></div>
+                    <div class="alert alert-danger d-none" id="error-message" role="alert"></div>
                     <div class="mb-3">
                         <label for="exampleInputEmail" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail" required>
@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!form) return;
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             const errorMessageDiv = document.getElementById('error-message');
             errorMessageDiv.classList.add('d-none');
             errorMessageDiv.textContent = '';
@@ -194,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json', 
                         'x-csrf-token': csrfToken
                     },
                     body: JSON.stringify({ email, password })

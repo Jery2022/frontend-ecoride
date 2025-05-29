@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     }
 
         // Vérifier les erreurs de validation
-        const errors = handleValidationErrors(req, res);    
+        const errors = handleValidationErrors(req, res);     
         if (errors) {
             return res.status(400).json({ errors });
         }
@@ -54,6 +54,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        
         if (!email || !password) return res.status(400).json({ message: 'Email et mot de passe requis.' });
 
         const errors = handleValidationErrors(req, res);
@@ -92,6 +93,6 @@ export const logout = (req, res) => {
             return res.status(500).json({ message: "Erreur lors de la déconnexion." });
         }
         res.clearCookie('connect.sid'); // Nom du cookie de session par défaut
-        res.status(200).json({ message: "Déconnexion réussie." });
+        res.status(200).json({ message: "Déconnexion réussie." }); 
     });
 };

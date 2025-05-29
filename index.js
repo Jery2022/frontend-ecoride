@@ -2,8 +2,9 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
-import sessionRouter from './routes/sessionRoutes.js';  
 import { isAuthenticated } from './utils/validation.js';
+import authRouter from './routes/authRoutes.js';
+import sessionRouter from './routes/sessionRoutes.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session'; 
 import csrf from 'csurf';
@@ -12,15 +13,15 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // Charger les variables d'environnement
 
-const csrfProtection = csrf(); // session uniquement
-//const expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
+
 
 const app = express();
 const port = process.env.PORT || 3000; // Port par défaut pour le serveur
 
 // Obtenir le répertoire courant
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename); 
 
 // Middlewares  
 app.use(bodyParser.json()); // Pour parser les données JSON
@@ -30,9 +31,10 @@ app.use(express.static(path.join(__dirname, 'public'))); // Middleware pour serv
 
 app.use(cors({
     name : 'sessionId',
-    origin:'localhost', 
+    origin:'http://localhost:4500', 
+    credentials: true,
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],  
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],  
    
 }));
 
@@ -43,13 +45,21 @@ app.use(session({
   saveUninitialized: true
 })); 
 
-app.use(csrf()); 
+const csrfProtection = csrf();
+//const expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
+// Route pour fournir le token CSRF
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
+
+// Routes API pour s'enrégistrer, se connecter et se déconnecter (protégées par CSRF)
+app.use('/api', authRouter);  
+
 
 // Routes
 app.use('/session', sessionRouter); // Route pour les sessions
-app.use('/api', isAuthenticated, csrfProtection); // Middleware pour protéger les routes API avec CSRF
-
-
+//app.use('/api', isAuthenticated);  // Route pour les API avec vérification de l'authentification
 
 
 // Route principale
@@ -64,11 +74,11 @@ app.get('/', (req, res) => {
     });
 });
 
+/*
 app.get('/register', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'register', 'register.html');
     res.sendFile(filePath, (err) => {
         if (err) {
-            console.error('Erreur sendFile :', err);
             res.status(err.status).end();
         }
     });
@@ -79,12 +89,11 @@ app.get('/login', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'login', 'login.html');
     res.sendFile(filePath, (err) => {
         if (err) {
-            console.error('Erreur sendFile :', err); 
             res.status(err.status).end();
         }
     });
 });
-
+*/
 
 // Route pour servir les fichiers partiels
 app.get('/partials/:file', (req, res) => {
@@ -96,6 +105,7 @@ app.get('/partials/:file', (req, res) => {
     });
 });
 
+
 // Middleware pour gérer les erreurs CSRF
 app.use((err, req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
@@ -106,7 +116,7 @@ app.use((err, req, res, next) => {
 
 // Middleware pour gérer les erreurs 404
 app.use((req, res, next) => {
-    res.status(404).send('Page not found : vérifié la présence de votre fichier !');
+    res.status(404).send('Page not found !');
 });
 
 // Middleware pour gérer les erreurs générales
