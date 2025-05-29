@@ -1,5 +1,5 @@
 // Fonction pour charger la barre de navigation 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {  
     // Fonction pour charger la navbar
     async function loadNavbar() {
         try {
@@ -14,15 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fonctions pour injecter les formulaires
+
     function injectRegisterForm() {
-        const contentDiv = document.getElementById('content');
+        const contentDiv = document.getElementById('content'); 
         contentDiv.innerHTML = `
             <div class="container card pt-5 mx-auto">
                 <h1 class="text-center text-black"><b>EcoRide'Vert</b></h1>
                 <h2 class="text-center mb-2 mt-5">CREER UN COMPTE</h2>
                 <h6 class="text-center mb-3">Déjà inscrit ? <a href="#" id="register-form-click">Cliquer ici</a></h6>
                 <form id="register-form">
-                    <div id="error-message"></div>
+                    <div class="alert alert-danger d-none" id="error-message" role="alert"></div>
                     <div class="mb-3">
                         <label for="exampleInputFirstName" class="form-label">Nom</label>
                         <input type="text" class="form-control" id="exampleInputFirstName" required>
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h2 class="text-center mb-2 mt-5">CONNECTEZ-VOUS</h2>
                 <h6 class="text-center mb-3">Pas encore inscrit ? <a href="#" id="login-form-click">Cliquer ici</a></h6>
                 <form id="login-form">
-                    <div id="error-message"></div>
+                    <div class="alert alert-danger d-none" id="error-message" role="alert"></div>
                     <div class="mb-3">
                         <label for="exampleInputEmail" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail" required>
@@ -108,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!form) return;
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             const errorMessageDiv = document.getElementById('error-message');
             errorMessageDiv.classList.add('d-none');
             errorMessageDiv.textContent = '';
@@ -194,14 +196,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json', 
                         'x-csrf-token': csrfToken
                     },
                     body: JSON.stringify({ email, password })
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    window.location.href = 'home.html';
+                    showMainContent();
                 } else {
                     errorMessageDiv.textContent = result.message || 'Identifiants invalides';
                     errorMessageDiv.classList.remove('d-none');
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Attache les listeners sur la navbar
+    // Attachement des listeners sur la navbar
     function attachNavbarListeners() {
         const createAccountBtn = document.getElementById('create-account-btn');
         const loginAccountBtn = document.getElementById('login-account-btn');
@@ -230,10 +232,61 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+    
+    
 
-    // Affichage du contenu initial (hero image)
+    // Affichage dynamique de la navbar
+    loadNavbar();
+
+    
+
+    // Affichage dynamique du contenu principal
+    showMainContent();
+
+});
+
+async function showMainContent() {
+
+    const createAccountBtn = document.getElementById('create-account-btn');
+    const loginAccountBtn = document.getElementById('login-account-btn');
+    const logoutAccountBtn = document.getElementById('logout-account-btn');
+
+    // Vérification de la session côté serveur
+    let data = {};
+    try {
+         const res = await fetch('/api/session', { credentials: 'include' });
+        if (!res.ok) {
+            console.error("Erreur HTTP sur /api/session :", res.status);
+            return;
+        }
+        data = await res.json();
+    } catch (err) {
+        console.error("Réponse non JSON reçue pour /api/session :", err);
+        return;
+    }
+    
+     
     const contentDiv = document.getElementById('content');
-    if (contentDiv) {
+    if (!contentDiv) return;
+
+    if (data.isAuthenticated) {
+        // L'utilisateur est connecté, masque les boutons "Créer un compte" et "Se connecter" et charge home.html
+        if (createAccountBtn) createAccountBtn.classList.add('d-none');
+        if (loginAccountBtn) loginAccountBtn.classList.add('d-none');
+        // Afficher le bouton "Se déconnecter"
+        if (logoutAccountBtn) logoutAccountBtn.classList.remove('d-none');
+
+        const response = await fetch('./partials/home.html');
+        if (!response.ok) throw new Error('Erreur lors du chargement de la page d\'accueil');
+        const homeHtml = await response.text();
+        contentDiv.innerHTML = homeHtml;
+    } else {
+        // L'utilisateur n'est pas connecté, affiche les boutons "Créer un compte" et "Se connecter", ensuite la hero image
+        if (createAccountBtn) createAccountBtn.classList.remove('d-none');
+        if (loginAccountBtn) loginAccountBtn.classList.remove('d-none');
+        // Masquer le bouton "Se déconnecter"
+        if (logoutAccountBtn) logoutAccountBtn.classList.add('d-none');
+       
         const initialContent = `
             <div class="hero-image">
                 <div class="hero-text">
@@ -245,10 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         contentDiv.innerHTML = initialContent;
     }
-
-    // Charger la navbar
-    loadNavbar();
-});
+}
 
 /*
 // Fonction pour la gestion de la création d'un trajet

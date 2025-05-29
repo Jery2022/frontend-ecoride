@@ -4,10 +4,9 @@ export const getSession = async (req, res) => {
             userName: req.session.userName,
             userRole: req.session.userRole,
             userIsValid: req.session.userIsValid,
-            isAdmin: req.session.userRole === 1,  
-            isEmploye: req.session.userRole === 2
+            isAuthenticated: true,
         });
     } else {
-        res.status(401).json({ message: 'Non authentifié' }); 
+        res.json({ isAuthenticated: false });
     }
 }; 

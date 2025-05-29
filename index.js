@@ -2,10 +2,11 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
-import sessionRouter from './routes/sessionRoutes.js';  
+import sessionRouter from './routes/sessionRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import { isAuthenticated } from './utils/validation.js';
 import cookieParser from 'cookie-parser';
-import session from 'express-session'; 
+import session from 'express-session';  
 import csrf from 'csurf';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -31,31 +32,33 @@ app.use(express.static(path.join(__dirname, 'public'))); // Middleware pour serv
 app.use(cors({
     name : 'sessionId',
     origin:'localhost', 
+    credentials: true,
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],  
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],  
    
 }));
 
-app.use(cookieParser(process.env.SECRET));
+app.use(cookieParser(process.env.SECRET)); 
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true
 })); 
 
-app.use(csrf()); 
+// Route pour fournir le token CSRF
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
 
-// Routes
-app.use('/session', sessionRouter); // Route pour les sessions
-app.use('/api', isAuthenticated, csrfProtection); // Middleware pour protéger les routes API avec CSRF
+// Routes API pour s'enrégistrer, se connecter et se déconnecter (protégées par CSRF)
+app.use('/api', authRouter);  
 
-
-
+// Routes API pour obtenir les données de session 
+app.use('/api', sessionRouter); 
 
 // Route principale
 app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'layouts', 'main.html');
-    console.log('Envoi du fichier :', filePath); // log 
     res.sendFile(filePath, (err) => {
         if (err) {
             console.error('Erreur sendFile :', err);
@@ -64,6 +67,7 @@ app.get('/', (req, res) => {
     });
 });
 
+/*
 app.get('/register', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'register', 'register.html');
     res.sendFile(filePath, (err) => {
@@ -84,7 +88,7 @@ app.get('/login', (req, res) => {
         }
     });
 });
-
+*/
 
 // Route pour servir les fichiers partiels
 app.get('/partials/:file', (req, res) => {

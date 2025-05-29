@@ -150,7 +150,7 @@ form button:hover {
   align-items: center;
   background-color: #008000;
   height: 50px;
-  width: 100% px;
+  width: 100%;
 }
 .frame-info .frame-body-solutions {
   background-color: #fafafa;

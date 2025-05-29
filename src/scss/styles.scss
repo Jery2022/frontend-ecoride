@@ -139,7 +139,7 @@ form {
     align-items: center;
     background-color:#008000;
     height:50px;
-    width:100%px;
+    width:100%;
 
   }
 
@@ -150,10 +150,9 @@ form {
     display:flex;
     flex-direction:column;
     gap:10px;
-
   }
   .text-primary-light {
-    color: $text-color-light;
+    color: $text-color-light; 
      
   }
 }
