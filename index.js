@@ -120,6 +120,6 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrer le serveur
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Serveur en écoute sur http://localhost:${port}`); 
 });
