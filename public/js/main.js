@@ -172,10 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         errorMessageDiv.textContent = "Erreur inconnue.";
                     }
                     errorMessageDiv.classList.remove('d-none');
-                    
-                    /*
-                    errorMessageDiv.textContent = result.message || 'Erreur lors de l\'inscription.';
-                    errorMessageDiv.classList.remove('d-none'); */
                 }
             } catch (error) {
                 errorMessageDiv.textContent = 'Erreur lors de l\'inscription.';
@@ -190,12 +186,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!form) return;
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             const errorMessageDiv = document.getElementById('error-message');
             errorMessageDiv.classList.add('d-none');
             errorMessageDiv.textContent = '';
 
             const email = document.getElementById('exampleInputEmail').value.trim();
             const password = document.getElementById('exampleInputPassword1').value;
+
+            if (!email || !password) {
+                errorMessageDiv.textContent = 'Tous les champs sont obligatoires.';
+                errorMessageDiv.classList.remove('d-none');
+                return;
+            }
 
             let csrfToken = '';
             try {
@@ -222,9 +225,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     showMainContent();
                 } else {
-                    errorMessageDiv.textContent = result.message || 'Identifiants invalides';
-                    errorMessageDiv.classList.remove('d-none');
-                }
+
+                    // Affichage des erreurs de validation ou message unique
+                    if (result.errors) {
+                        // Si c'est un tableau d'erreurs
+                        if (Array.isArray(result.errors)) {
+                            errorMessageDiv.innerHTML = result.errors.map(e => `<div>${e.msg || e}</div>`).join('');
+                        } else {
+                            // Si c'est un objet d'erreurs
+                            errorMessageDiv.innerHTML = Object.values(result.errors).map(e => `<div>${e}</div>`).join('');
+                        }
+                    } else if (result.message) {
+                        errorMessageDiv.textContent = result.message;
+                    } else {
+                        errorMessageDiv.textContent = "Erreur inconnue.";
+                    }
+                    errorMessageDiv.classList.remove('d-none'); 
+                }    
             } catch (error) {
                 errorMessageDiv.textContent = 'Erreur lors de la connexion';
                 errorMessageDiv.classList.remove('d-none');
