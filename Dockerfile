@@ -11,12 +11,6 @@ WORKDIR /app-front
 # Copier uniquement les fichiers nécessaires pour l'installation des dépendances
 COPY package*.json  ./
 
-# Donner des autorisations à la node l'utilisateur 
-# RUN chown -R node:node node_modules
-
-# Changer l'utilisateur pour éviter d'exécuter l'application en tant que root
-# USER node
-
 # Installer les dépendances en mode production
 # RUN npm ci --production
 RUN npm install --production
