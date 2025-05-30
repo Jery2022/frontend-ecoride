@@ -157,8 +157,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
                     injectLoginForm();
                 } else {
-                    errorMessageDiv.textContent = result.message || 'Erreur lors de l\'inscription.';
+                    // Affichage des erreurs de validation ou message unique
+                    if (result.errors) {
+                        // Si c'est un tableau d'erreurs
+                        if (Array.isArray(result.errors)) {
+                            errorMessageDiv.innerHTML = result.errors.map(e => `<div>${e.msg || e}</div>`).join('');
+                        } else {
+                            // Si c'est un objet d'erreurs
+                            errorMessageDiv.innerHTML = Object.values(result.errors).map(e => `<div>${e}</div>`).join('');
+                        }
+                    } else if (result.message) {
+                        errorMessageDiv.textContent = result.message;
+                    } else {
+                        errorMessageDiv.textContent = "Erreur inconnue.";
+                    }
                     errorMessageDiv.classList.remove('d-none');
+                    
+                    /*
+                    errorMessageDiv.textContent = result.message || 'Erreur lors de l\'inscription.';
+                    errorMessageDiv.classList.remove('d-none'); */
                 }
             } catch (error) {
                 errorMessageDiv.textContent = 'Erreur lors de l\'inscription.';
@@ -219,6 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function attachNavbarListeners() {
         const createAccountBtn = document.getElementById('create-account-btn');
         const loginAccountBtn = document.getElementById('login-account-btn');
+        const logoutAccountBtn = document.getElementById('logout-account-btn');
+
         if (createAccountBtn) {
             createAccountBtn.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -229,6 +248,26 @@ document.addEventListener('DOMContentLoaded', function() {
             loginAccountBtn.addEventListener('click', function(event) {
                 event.preventDefault();
                 injectLoginForm();
+            });
+        }
+        if (logoutAccountBtn) {
+            logoutAccountBtn.addEventListener('click', async function(event) {
+                event.preventDefault();
+                // Appel de l'API de déconnexion
+                try {
+                    const response = await fetch('/api/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                    });
+                    if (!response.ok) {
+                        console.error("Erreur HTTP sur /api/logout :", response.status);
+                        return;
+                    }
+                    // On réaffiche le contenu principal (hero image)
+                    showMainContent();
+                } catch (error) {
+                    alert('Erreur lors de la déconnexion');
+                }
             });
         }
     }

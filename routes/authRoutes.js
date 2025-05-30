@@ -3,8 +3,11 @@ import csrf from 'csurf';
 import { body } from 'express-validator';
 import { register, login, logout  } from "../controllers/authController.js";
 import { validateRequest } from "../utils/validation.js";
-import { MIN_NAME_LENGTH, 
-        NAME_LENGTH_MESSAGE, 
+import { 
+        MIN_NAME_LENGTH, 
+        MIN_SURNAME_LENGTH, 
+        NAME_LENGTH_MESSAGE,
+        SURNAME_LENGTH_MESSAGE, 
         INVALID_EMAIL_MESSAGE, 
     } from "../utils/messages.js";
 
@@ -19,8 +22,8 @@ authRouter.post('/register', csrfProtection,
       .trim()
       .escape(),
     body("prenom")
-      .isLength({ min: MIN_NAME_LENGTH })
-      .withMessage(NAME_LENGTH_MESSAGE)
+      .isLength({ min: MIN_SURNAME_LENGTH })
+      .withMessage(SURNAME_LENGTH_MESSAGE)
       .trim()
       .escape(),
     body("email").isEmail().withMessage(INVALID_EMAIL_MESSAGE).normalizeEmail(),

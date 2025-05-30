@@ -11,9 +11,11 @@ const DATA_UPDATED_MESSAGE = 'Donnée(s) mise(s) à jour avec succès.';
 const DATA_DELETED_MESSAGE = 'Donnée(s) supprimée(s) avec succès.';
 const USER_ALREADY_EXISTS_MESSAGE = 'L\'utilisateur existe déjà.';
 const DATA_NOT_FOUND_MESSAGE = 'Aucune donnée trouvée.';
-const MIN_NAME_LENGTH = 5;
+const MIN_NAME_LENGTH = 3;
+const MIN_SURNAME_LENGTH = 3;
 const INVALID_EMAIL_MESSAGE = "Email invalide";
-const NAME_LENGTH_MESSAGE = `Le nom doit contenir au moins ${MIN_NAME_LENGTH} caractères`;
+const NAME_LENGTH_MESSAGE = `Le Nom doit contenir au moins ${MIN_NAME_LENGTH} caractères`;
+const SURNAME_LENGTH_MESSAGE = `Le Prénnom doit contenir au moins ${MIN_SURNAME_LENGTH} caractères`;
 const INVALID_ID_MESSAGE = "L'ID doit être un entier";
 
 export  {
@@ -30,6 +32,8 @@ export  {
     USER_ALREADY_EXISTS_MESSAGE,
     DATA_NOT_FOUND_MESSAGE,
     MIN_NAME_LENGTH,
+    MIN_SURNAME_LENGTH,
     INVALID_EMAIL_MESSAGE,
-    NAME_LENGTH_MESSAGE
+    NAME_LENGTH_MESSAGE,
+    SURNAME_LENGTH_MESSAGE
 };
