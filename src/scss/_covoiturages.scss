@@ -1,0 +1,154 @@
+
+@use 'variables' as *;  // Importation des variables et des mixins
+
+
+.text-search {
+    a {
+        color: $text-color-primary;
+        text-decoration: underline;
+    }
+    a:hover {
+        color: $secondary-color;
+        text-decoration: underline;
+        text-transform: .75em;
+    }
+                
+}
+
+.section1 {
+    background-color:$card-background;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    gap:10px;
+
+    .frame5
+        {
+            background-color:$tertiary-color;
+            height:max-content;
+            width:100%;
+            display:flex;
+            flex-direction:column;
+        
+        .frame-entete-liste-covoiturage 
+            {
+                background-color:$primary-color;
+                color: $text-color-light;
+                height:120px;
+                width:100%;
+                padding:20px 50px;
+                display:flex;
+                flex-direction:column;
+        }
+
+        .frame-body-liste-covoiturages
+            {
+                background-color:$card-background;
+                height:max-content;
+                padding: 20px;
+                margin: 20px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                gap:20px;
+
+                .frame-recherche
+                    {
+                        padding:10px;
+                        display:flex;
+                        flex-direction:row;
+                        flex-wrap:wrap;
+                        justify-content:center;
+                        align-items:center;
+                        gap:20px;
+
+                        .frame-depart, .frame-arrivee
+                            {
+                                background-color:$text-color-light;
+                                height:60px;
+                                width:350px;
+                                border-radius:5px;
+                                padding:5px 10px;
+                                display:flex;
+                                flex-direction:row;
+                                justify-content:flex-start;
+                                align-items:center;
+                                gap:56px;
+                                input {
+                                    height: 50px;
+                                    width: 350px;
+                                    margin: 0 2px;
+                                    border: none;
+                                }
+                        }
+                }
+
+                
+        }
+
+        .frame-box-message
+            {
+                background-color:$background-color-box-msg;
+                height:100px;
+                padding:35px 40px;
+                margin: 20px;
+                display:flex;
+                flex-direction:row;
+                justify-content:center;
+                align-items:center;
+        }
+
+    }
+
+}
+
+.section2
+{
+    background-color:$tertiary-color;
+    width:100%;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+
+        .frame-annonce-card {
+            margin: 0;
+            display:flex;
+            flex-direction:row;
+            flex-wrap: wrap;
+            justify-content:center;
+            align-items:center;
+            gap:20px;
+
+            .annonce-card
+            {
+                background-color:$card-background;
+                width:400px;
+                filter:drop-shadow(0px 4px 4px rgba(0,0,0,0.25));
+                border-radius:5px;
+                padding:20px 30px;
+
+                    .annonce-card-body
+                        {
+                            padding:20px;
+                    }
+            }
+
+             
+        }
+
+        .frame-header-annonce, .frame-box-autre-annonce
+                {
+                    background-color:$primary-color;
+                    color:$text-color-light;
+                    height:50px;
+                    margin:20px;
+                    display:flex;
+                    flex-direction:row;
+                    justify-content:center;
+                    align-items:center;
+                }
+}
+
+
+

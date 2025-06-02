@@ -67,29 +67,6 @@ app.get('/', (req, res) => {
     });
 });
 
-/*
-app.get('/register', (req, res) => {
-    const filePath = path.join(__dirname, 'views', 'register', 'register.html');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Erreur sendFile :', err);
-            res.status(err.status).end();
-        }
-    });
-});
-
-
-app.get('/login', (req, res) => {
-    const filePath = path.join(__dirname, 'views', 'login', 'login.html');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Erreur sendFile :', err); 
-            res.status(err.status).end();
-        }
-    });
-});
-*/
-
 // Route pour servir les fichiers partiels
 app.get('/partials/:file', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'partials', req.params.file);
@@ -123,3 +100,5 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Serveur en écoute sur http://localhost:${port}`); 
 });
+
+ 

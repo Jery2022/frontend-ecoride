@@ -254,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const createAccountBtn = document.getElementById('create-account-btn');
         const loginAccountBtn = document.getElementById('login-account-btn');
         const logoutAccountBtn = document.getElementById('logout-account-btn');
+        const covoiturageBtn = document.getElementById('covoiturage-btn');
 
         if (createAccountBtn) {
             createAccountBtn.addEventListener('click', function(event) {
@@ -287,14 +288,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+        if (covoiturageBtn) {
+            covoiturageBtn.addEventListener('click', async function(event) {
+                event.preventDefault();
+                const contentDiv = document.getElementById('content');
+                try {
+                    const response = await fetch('./partials/covoiturage.html');
+                    if (!response.ok) throw new Error('Erreur lors du chargement de la page covoiturage');
+                    const covoiturageHtml = await response.text();
+                    contentDiv.innerHTML = covoiturageHtml;
+                } catch (error) {
+                    contentDiv.innerHTML = "<div class='alert alert-danger'>Impossible de charger la page covoiturage.</div>";
+                }
+            });
+            
+        }
     }
     
     
 
     // Affichage dynamique de la navbar
     loadNavbar();
-
-    
 
     // Affichage dynamique du contenu principal
     showMainContent();
@@ -306,6 +320,7 @@ async function showMainContent() {
     const createAccountBtn = document.getElementById('create-account-btn');
     const loginAccountBtn = document.getElementById('login-account-btn');
     const logoutAccountBtn = document.getElementById('logout-account-btn');
+    const covoiturageBtn = document.getElementById('covoiturage-btn');  
 
     // Vérification de la session côté serveur
     let data = {};
@@ -336,6 +351,7 @@ async function showMainContent() {
         if (!response.ok) throw new Error('Erreur lors du chargement de la page d\'accueil');
         const homeHtml = await response.text();
         contentDiv.innerHTML = homeHtml;
+        showAccordion();
     } else {
         // L'utilisateur n'est pas connecté, affiche les boutons "Créer un compte" et "Se connecter", ensuite la hero image
         if (createAccountBtn) createAccountBtn.classList.remove('d-none');
@@ -347,12 +363,30 @@ async function showMainContent() {
             <div class="hero-image">
                 <div class="hero-text">
                     <h1>Bienvenue sur notre plateforme de covoiturage</h1>
-                    <p>Veuillez vous inscrire ou vous connecter pour continuer.</p>
+                    <p>Veuillez vous inscrire ou vous connecter pour continuer.</p> 
                     <button>En savoir plus</button>
                 </div>
             </div>
         `;
         contentDiv.innerHTML = initialContent;
+    }
+}
+
+async function showAccordion() {
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
     }
 }
 

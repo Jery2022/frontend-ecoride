@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
     }
 
-        // Vérifier les erreurs de validation
+        // Vérifier les erreurs de validation 
         const errors = handleValidationErrors(req, res);    
         if (errors) {
             return res.status(400).json({ errors });

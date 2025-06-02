@@ -20,7 +20,7 @@ Créez un nouveau dossier pour votre projet. Ensuite, ouvrez un terminal dans ce
 Express.js est un framework web basé sur Node.js. Installez-le avec la commande suivante : npm install express
 
 4. Créer un fichier serveur
-Créez un fichier principal (server.js) dans votre dossier de projet.  
+Créez un fichier principal (index.js) dans votre dossier de projet.  
 
 5. Exécuter le serveur
 Pour démarrer votre serveur, exécutez la commande suivante dans votre terminal : node server.js
